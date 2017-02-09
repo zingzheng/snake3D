@@ -50,6 +50,16 @@ public class playerControl : MonoBehaviour {
 			dir = new Vector3(0.0f,0.0f,1.0f*speed);
 		else if (Input.GetKey (KeyCode.S))
 			dir = new Vector3(0.0f,0.0f,-1.0f*speed);
+
+		if (Input.acceleration.x>0.3f)
+			dir = new Vector3(1.0f*speed,0.0f,0.0f);
+		else if (Input.acceleration.x<-0.3f)
+			dir = new Vector3(-1.0f*speed,0.0f,0.0f);
+		else if (Input.acceleration.y>0.2f)
+			dir = new Vector3(0.0f,0.0f,1.0f*speed);
+		else if (Input.acceleration.y<-0.2f)
+			dir = new Vector3(0.0f,0.0f,-1.0f*speed);
+			
 	}
 
 	void OnTriggerEnter(Collider coll){
