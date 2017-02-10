@@ -8,8 +8,11 @@ using System;
 
 public class Game : MonoBehaviour {
 
+	//下方的菜单
 	public Text textScore;
 	public Button pauseButton;
+	public Button rankButton;
+	public Button closeButton;
 
 	//中间的开始菜单
 	public Image startImage;
@@ -20,7 +23,7 @@ public class Game : MonoBehaviour {
 	//右侧的菜单
 	public Image menuImage;
 	public Text textRank;
-	public Button resumButton;
+
 
 
 	public playerControl player;
@@ -62,11 +65,17 @@ public class Game : MonoBehaviour {
 		//监听暂停
 		Button pau_btn = pauseButton.GetComponent<Button>();
 		pau_btn.onClick.AddListener(pauseGame);
-		Button resum_btn = resumButton.GetComponent<Button>();
-		resum_btn.onClick.AddListener(resumGame);
+
+		//监听榜单
+		Button rank_btn = rankButton.GetComponent<Button>();
+		rank_btn.onClick.AddListener(showRank);
+		Button close_btn = closeButton.GetComponent<Button>();
+		close_btn.onClick.AddListener(closeRank);
+
 		//监听设置昵称
 		Button name_btn = nameButton.GetComponent<Button>();
 		name_btn.onClick.AddListener(submitName);
+
 
 		//若未设置昵称，弹出设置昵称
 		infoall = ReadFile (configPath);
@@ -85,6 +94,7 @@ public class Game : MonoBehaviour {
 		sf.gameObject.SetActive (true);
 		player.gameObject.SetActive (true);
 
+
 		//隐藏开始菜单
 		startImage.gameObject.SetActive (false);
 		startButton.gameObject.SetActive (false);
@@ -94,6 +104,7 @@ public class Game : MonoBehaviour {
 
 		Time.timeScale = 1;
 		isStart = true;
+		pauseButton.gameObject.SetActive (true);
 	}
 
 	//重新开始游戏
@@ -108,21 +119,40 @@ public class Game : MonoBehaviour {
 		if (isStart == true) {
 			isStart = false;
 			Time.timeScale = 0;
-			//刷新榜单并显示菜单
-			StartCoroutine(initRank ());
-			menuImage.gameObject.SetActive (true);
+			pauseButton.GetComponent<Text> ().text = "恢复游戏";
+
 			//暂停背景音乐
-			bgm.Stop();
+			bgm.Stop ();
+		} else {
+			isStart = true;
+			Time.timeScale = 1;
+			pauseButton.GetComponent<Button>().GetComponent<Text> ().text = "暂停游戏";
+			bgm.Play ();
 		}
 	}
 
-	//恢复游戏
-	void resumGame(){
-		isStart = true;
-		Time.timeScale = 1;
+	//排行榜菜单
+	void showRank(){
+		if(isStart == true){
+			Time.timeScale = 0;
+			bgm.Stop ();
+		}
+		pauseButton.gameObject.SetActive (false);
+		//刷新榜单并显示菜单
+		StartCoroutine (initRank ());
+		menuImage.gameObject.SetActive (true);
+
+	}
+
+	//关闭排行榜菜单
+	void closeRank(){
+		if(isStart == true){
+			Time.timeScale = 1;
+			bgm.Play ();
+			pauseButton.gameObject.SetActive (true);
+		}
 		menuImage.gameObject.SetActive (false);
-		//背景音乐
-		bgm.Play();
+
 	}
 
 
@@ -134,6 +164,7 @@ public class Game : MonoBehaviour {
 	//失败触发
 	void OnLose(){
 		isStart = false;
+		pauseButton.gameObject.SetActive (false);
 		//失败音效
 		bgm.Stop ();
 		failm.Play ();
@@ -151,6 +182,7 @@ public class Game : MonoBehaviour {
 	//成功触发
 	void OnWin(){
 		isStart = false;
+		pauseButton.gameObject.SetActive (false);
 		//成功音效
 		bgm.Stop ();
 		//提交分数
@@ -193,9 +225,16 @@ public class Game : MonoBehaviour {
 		yield return www;
 		if (string.IsNullOrEmpty (www.error)) {
 			Debug.Log (www.text);
-			textRank.text = www.text.ToString();
+			string res = www.text.ToString();
+			int bIndex = 23;
+			int eIndex = res.LastIndexOf("\"");
+			res = res.Substring (bIndex, eIndex - bIndex);
+			res = res.Replace ("\\n", "\n");
+			textRank.text = res;
 		} else {
 			Debug.Log (www.error);
+			textRank.text = "loa rank fail! \n please try later!";
+			//myText.text = myText.text.Replace ("\\n", "\n");
 		}
 	}
 

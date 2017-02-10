@@ -42,6 +42,25 @@ public class playerControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		if (Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Moved) {
+			// Get movement of the finger since last frame
+			Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
+			if (Math.Abs (touchDeltaPosition.x) > Math.Abs (touchDeltaPosition.y)) {
+				if (touchDeltaPosition.x > 0) {
+					dir = new Vector3 (1.0f * speed, 0.0f, 0.0f);
+				} else {
+					dir = new Vector3 (-1.0f * speed, 0.0f, 0.0f);
+				}
+			} else {
+				if (touchDeltaPosition.y > 0) {
+					dir = new Vector3 (0.0f, 0.0f, 1.0f * speed);
+				} else {
+					dir = new Vector3 (0.0f, 0.0f, -1.0f * speed);
+				}
+			}
+		}
+
 		if (Input.GetKey (KeyCode.D))
 			dir = new Vector3(1.0f*speed,0.0f,0.0f);
 		else if (Input.GetKey (KeyCode.A))
@@ -49,15 +68,6 @@ public class playerControl : MonoBehaviour {
 		else if (Input.GetKey (KeyCode.W))
 			dir = new Vector3(0.0f,0.0f,1.0f*speed);
 		else if (Input.GetKey (KeyCode.S))
-			dir = new Vector3(0.0f,0.0f,-1.0f*speed);
-
-		if (Input.acceleration.x>0.3f)
-			dir = new Vector3(1.0f*speed,0.0f,0.0f);
-		else if (Input.acceleration.x<-0.3f)
-			dir = new Vector3(-1.0f*speed,0.0f,0.0f);
-		else if (Input.acceleration.y>0.2f)
-			dir = new Vector3(0.0f,0.0f,1.0f*speed);
-		else if (Input.acceleration.y<-0.2f)
 			dir = new Vector3(0.0f,0.0f,-1.0f*speed);
 			
 	}

@@ -1,0 +1,17 @@
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/UnityEngine.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/UnityEditor.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/UnityEngine.Analytics.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/UnityEngine.PlaymodeTestsRunner.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/UnityEngine.HoloLens.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/UnityEngine.VR.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/Mono.Cecil.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/Unity.DataContract.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/zing/Documents/uspace/snake3D/Temp/bin/Debug/Mono.Cecil.Mdb.dll
