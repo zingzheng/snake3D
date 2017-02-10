@@ -37,6 +37,7 @@ public class Game : MonoBehaviour {
 	public Button nameButton;
 
 	//音效
+	public Text regText;
 	public AudioSource bgm;
 	public AudioSource scorem;
 	public AudioSource failm;
@@ -232,10 +233,34 @@ public class Game : MonoBehaviour {
 
 	//提交昵称
 	void submitName(){
-		Text nameText = nameInput.GetComponentInChildren<Text> ();
-		WriteFile (configPath, nameText.text);
-		userName = nameText.text;
-		regImage.gameObject.SetActive(false);
+		string nameStr = nameInput.GetComponentInChildren<Text> ().text;
+		if (nameStr == "") {
+			regText.text = "请输出昵称！";
+		} else {
+			StartCoroutine(checkName (nameStr));
+		}
+
+
+	}
+
+	//注册姓名
+	IEnumerator checkName(string name){
+		WWW www = new WWW ("http://127.0.0.1:8000/check_name/"+name);
+		yield return www;
+		if (string.IsNullOrEmpty (www.error)) {
+			Debug.Log (www.text);
+			if (www.text.ToString ().Contains ("ok")) {
+				WriteFile (configPath, name);
+				userName = name;
+				regImage.gameObject.SetActive (false);
+			} else {
+				regText.text = "该昵称已被占用！";
+			}
+
+		} else {
+			Debug.Log (www.error);
+			regText.text = "服务器异常！";
+		}
 	}
 
 	//获取排行榜
@@ -269,8 +294,8 @@ public class Game : MonoBehaviour {
 		} else {
 			Debug.Log (www.error);
 		}
-
 	}
+		
 
 	//写文件
 	void WriteFile(string name,string info)
