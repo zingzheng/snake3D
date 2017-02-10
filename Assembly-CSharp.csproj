@@ -50,6 +50,7 @@
      <Compile Include="Assets\Script\RankList.cs" />
      <Compile Include="Assets\Script\SpawnFood.cs" />
      <Compile Include="Assets\Script\playerControl.cs" />
+     <Compile Include="Assets\Script\ready.cs" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>

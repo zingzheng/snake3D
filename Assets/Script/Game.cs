@@ -8,6 +8,8 @@ using System;
 
 public class Game : MonoBehaviour {
 
+	public GameObject anim3;
+
 	//下方的菜单
 	public Text textScore;
 	public Button pauseButton;
@@ -47,12 +49,17 @@ public class Game : MonoBehaviour {
 	private string configPath = "config.txt" ;
 	//文本中每行的内容
 	private ArrayList infoall = null;
+	//延迟时间
+	private float delt = 99.0f;
 
 
 
 
 	// Use this for initialization
 	void Start () {
+		isStart = false;
+		Time.timeScale = 0;
+
 		//添加player的成功、失败、加分的方法
 		player.OnLose += OnLose;
 		player.OnWin += OnWin;
@@ -90,10 +97,10 @@ public class Game : MonoBehaviour {
 
 	//开始游戏
 	void startGame(){
+		
 		//激活蛇和食物脚本
 		sf.gameObject.SetActive (true);
 		player.gameObject.SetActive (true);
-
 
 		//隐藏开始菜单
 		startImage.gameObject.SetActive (false);
@@ -101,10 +108,13 @@ public class Game : MonoBehaviour {
 
 		//播放背景英语
 		bgm.Play();
-
 		Time.timeScale = 1;
 		isStart = true;
 		pauseButton.gameObject.SetActive (true);
+
+//		delt = 3.0f;
+//		GameObject anim = Instantiate (anim3);
+
 	}
 
 	//重新开始游戏
@@ -119,14 +129,14 @@ public class Game : MonoBehaviour {
 		if (isStart == true) {
 			isStart = false;
 			Time.timeScale = 0;
-			pauseButton.GetComponent<Text> ().text = "恢复游戏";
+			pauseButton.GetComponentInChildren<Text> ().text = "恢复游戏";
 
 			//暂停背景音乐
 			bgm.Stop ();
 		} else {
 			isStart = true;
 			Time.timeScale = 1;
-			pauseButton.GetComponent<Button>().GetComponent<Text> ().text = "暂停游戏";
+			pauseButton.GetComponentInChildren<Text> ().text = "暂停游戏";
 			bgm.Play ();
 		}
 	}
@@ -137,7 +147,7 @@ public class Game : MonoBehaviour {
 			Time.timeScale = 0;
 			bgm.Stop ();
 		}
-		pauseButton.gameObject.SetActive (false);
+		pauseButton.enabled=false;
 		//刷新榜单并显示菜单
 		StartCoroutine (initRank ());
 		menuImage.gameObject.SetActive (true);
@@ -149,8 +159,8 @@ public class Game : MonoBehaviour {
 		if(isStart == true){
 			Time.timeScale = 1;
 			bgm.Play ();
-			pauseButton.gameObject.SetActive (true);
 		}
+		pauseButton.enabled=true;
 		menuImage.gameObject.SetActive (false);
 
 	}
@@ -158,8 +168,17 @@ public class Game : MonoBehaviour {
 
 	
 	// Update is called once per frame
-	void Update () {
-	}
+//	void Update () {
+//		if (delt < 5.0f){
+//			delt -= Time.deltaTime;
+//			if (delt <= 0.0f) {
+//				Time.timeScale = 1;
+//				isStart = true;
+//				pauseButton.gameObject.SetActive (true);
+//				delt = 99.0f;
+//			}
+//		}
+//	}
 
 	//失败触发
 	void OnLose(){
