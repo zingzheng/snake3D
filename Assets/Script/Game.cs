@@ -277,7 +277,7 @@ public class Game : MonoBehaviour {
 			textRank.text = res;
 		} else {
 			Debug.Log (www.error);
-			textRank.text = "loa rank fail! \n please try later!";
+			textRank.text = "load ranklist fail! \nplease try later!";
 			//myText.text = myText.text.Replace ("\\n", "\n");
 		}
 	}

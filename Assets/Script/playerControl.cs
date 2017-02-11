@@ -21,6 +21,10 @@ public class playerControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		dir = new Vector3(1.0f*speed,0.0f,0.0f);
+		for (int i = 0; i < 5; i++) {
+			GameObject g = (GameObject)Instantiate (tailPrefab, new Vector3(-(1.0f+i),0.5f,0.0f), Quaternion.identity);
+			tail.Insert (i, g.transform);
+		}
 		InvokeRepeating ("Move", 0.3f, 0.3f);
 	}
 
@@ -28,6 +32,7 @@ public class playerControl : MonoBehaviour {
 		Vector3 pos = transform.position;
 		transform.Translate (dir);
 		if (ate) {
+			//speed += 0.5f * tail.Count / 10;
 			AddScore ();
 			GameObject g = (GameObject)Instantiate (tailPrefab, pos, Quaternion.identity);
 			tail.Insert (0, g.transform);
@@ -47,27 +52,29 @@ public class playerControl : MonoBehaviour {
 			// Get movement of the finger since last frame
 			Vector2 touchDeltaPosition = Input.GetTouch (0).deltaPosition;
 			if (Math.Abs (touchDeltaPosition.x) > Math.Abs (touchDeltaPosition.y)) {
-				if (touchDeltaPosition.x > 0) {
+				if (touchDeltaPosition.x > 0 && dir.x>=0.0f) {
 					dir = new Vector3 (1.0f * speed, 0.0f, 0.0f);
-				} else {
+				} 
+				if (touchDeltaPosition.x < 0 && dir.x<=0.0f){
 					dir = new Vector3 (-1.0f * speed, 0.0f, 0.0f);
 				}
 			} else {
-				if (touchDeltaPosition.y > 0) {
+				if (touchDeltaPosition.y > 0 && dir.z>=0.0f) {
 					dir = new Vector3 (0.0f, 0.0f, 1.0f * speed);
-				} else {
+				} 
+				if (touchDeltaPosition.y < 0 && dir.z<=0.0f) {
 					dir = new Vector3 (0.0f, 0.0f, -1.0f * speed);
 				}
 			}
 		}
 
-		if (Input.GetKey (KeyCode.D))
+		if (Input.GetKey (KeyCode.D) && dir.x>=0.0f)
 			dir = new Vector3(1.0f*speed,0.0f,0.0f);
-		else if (Input.GetKey (KeyCode.A))
+		else if (Input.GetKey (KeyCode.A) && dir.x<=0.0f)
 			dir = new Vector3(-1.0f*speed,0.0f,0.0f);
-		else if (Input.GetKey (KeyCode.W))
+		else if (Input.GetKey (KeyCode.W) && dir.z>=0.0f)
 			dir = new Vector3(0.0f,0.0f,1.0f*speed);
-		else if (Input.GetKey (KeyCode.S))
+		else if (Input.GetKey (KeyCode.S) && dir.z<=0.0f)
 			dir = new Vector3(0.0f,0.0f,-1.0f*speed);
 			
 	}
