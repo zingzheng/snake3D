@@ -15,6 +15,7 @@ public class Game : MonoBehaviour {
 	public Button pauseButton;
 	public Button rankButton;
 	public Button closeButton;
+	public Button frButton;
 
 	//中间的开始菜单
 	public Image startImage;
@@ -73,6 +74,8 @@ public class Game : MonoBehaviour {
 		//监听暂停
 		Button pau_btn = pauseButton.GetComponent<Button>();
 		pau_btn.onClick.AddListener(pauseGame);
+		Button fr_btn = frButton.GetComponent<Button>();
+		fr_btn.onClick.AddListener(restartGame);
 
 		//监听榜单
 		Button rank_btn = rankButton.GetComponent<Button>();
@@ -121,7 +124,7 @@ public class Game : MonoBehaviour {
 	//重新开始游戏
 	void restartGame(){
 		SceneManager.LoadScene ("snake_scene");
-		Time.timeScale = 1;
+		Time.timeScale = 0;
 		isStart = false;
 	}
 
@@ -225,7 +228,7 @@ public class Game : MonoBehaviour {
 		//更新分数
 		score += 1;
 		textScore.text = "score: " + score.ToString();
-		if (score == 17 * 17) {
+		if (score == (10+10-1) * (15+18-1)) {
 			OnWin ();
 		}
 
