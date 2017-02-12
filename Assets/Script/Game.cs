@@ -43,6 +43,7 @@ public class Game : MonoBehaviour {
 	public AudioSource bgm;
 	public AudioSource scorem;
 	public AudioSource failm;
+	public AudioSource eatm;
 
 	private bool isStart = false;
 	private Text pause_text;
@@ -67,6 +68,7 @@ public class Game : MonoBehaviour {
 		player.OnLose += OnLose;
 		player.OnWin += OnWin;
 		player.AddScore += AddScore;
+		player.AddBScore += AddBScore;
 		//监听开始、重新开始
 		Button str_btn = startButton.GetComponent<Button>();
 		str_btn.onClick.AddListener(startGame);
@@ -227,13 +229,20 @@ public class Game : MonoBehaviour {
 	//加分
 	void AddScore(){
 		//加分音效
-		scorem.Play ();
+		eatm.Play ();
 		//更新分数
 		score += 1;
 		textScore.text = "score: " + score.ToString();
 		if (score == (10+10-1) * (15+18-1)) {
 			OnWin ();
 		}
+
+	}
+
+	void AddBScore(){
+		scorem.Play ();
+		score += 10;
+		textScore.text = "score: " + score.ToString();
 
 	}
 

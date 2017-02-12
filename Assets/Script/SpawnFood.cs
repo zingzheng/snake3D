@@ -5,7 +5,13 @@ using UnityEngine;
 public class SpawnFood : MonoBehaviour {
 	// Food Prefab
 	public GameObject foodPrefab;
-
+	public GameObject foodPrefab1;
+	public GameObject foodPrefab2;
+	public GameObject foodPrefab3;
+	public GameObject foodPrefab4;
+	public GameObject foodPrefab5;
+	public GameObject foodPrefab6;
+	private List<GameObject> foods = new List<GameObject>();
 	// Borders
 	public Transform borderTop;
 	public Transform borderBottom;
@@ -15,12 +21,19 @@ public class SpawnFood : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		foods.Add (foodPrefab1);
+		foods.Add (foodPrefab2);
+		foods.Add (foodPrefab3);
+		foods.Add (foodPrefab4);
+		foods.Add (foodPrefab5);
+		foods.Add (foodPrefab6);
 		InvokeRepeating("Spawn", 0.3f, 4);
 	}
 
 
 	void Spawn()
 	{
+		int type = (int)Random.Range (0, 6);
 
 
 		// x position between left & right border
@@ -32,7 +45,7 @@ public class SpawnFood : MonoBehaviour {
 			borderTop.position.z-1.0f);
 
 		// Instantiate the food at (x, y)
-		Instantiate(foodPrefab, new Vector3(x, 0.5f, z), Quaternion.identity); // default rotation
+		Instantiate(foods[type], new Vector3(x, 0.5f, z), Quaternion.identity); // default rotation
 
 	}
 	
