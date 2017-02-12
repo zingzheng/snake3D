@@ -37,15 +37,15 @@ public class SpawnFood : MonoBehaviour {
 
 
 		// x position between left & right border
-		float x = (float) (int)Random.Range(borderLeft.position.x+1.0f,
-			borderRight.position.x-1.0f);
+		float x = (float) ((int)Random.Range(borderLeft.position.x+1.0f,
+			borderRight.position.x-1.0f)/2*2);
 		
 		// y position between top & bottom border
-		float z = (float) (int)Random.Range(borderBottom.position.z+1.0f,
-			borderTop.position.z-1.0f);
+		float z = (float) ((int)Random.Range(borderBottom.position.z+1.0f,
+			borderTop.position.z-1.0f)/2*2);
 
 		// Instantiate the food at (x, y)
-		Instantiate(foods[type], new Vector3(x, 0.5f, z), Quaternion.identity); // default rotation
+		Instantiate(foods[type], new Vector3(x, 1.0f, z), Quaternion.identity); // default rotation
 
 	}
 	

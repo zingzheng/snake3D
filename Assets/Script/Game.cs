@@ -44,6 +44,7 @@ public class Game : MonoBehaviour {
 	public AudioSource scorem;
 	public AudioSource failm;
 	public AudioSource eatm;
+	public AudioSource succm;
 
 	private bool isStart = false;
 	private Text pause_text;
@@ -102,6 +103,13 @@ public class Game : MonoBehaviour {
 		}
 		startImage.gameObject.SetActive (true);
 		startButton.gameObject.SetActive (true);
+	}
+
+	//切出游戏
+	void OnApplicationPause( bool pauseStatus ){
+		if (isStart==true &&  pauseStatus == true) {
+			pauseGame ();
+		}
 	}
 
 	//开始游戏
@@ -213,6 +221,7 @@ public class Game : MonoBehaviour {
 		pauseButton.gameObject.SetActive (false);
 		//成功音效
 		bgm.Stop ();
+		succm.Play ();
 		//提交分数
 		StartCoroutine(submitScore ());
 		//展示中间菜单
@@ -233,10 +242,6 @@ public class Game : MonoBehaviour {
 		//更新分数
 		score += 1;
 		textScore.text = "score: " + score.ToString();
-		if (score == (10+10-1) * (15+18-1)) {
-			OnWin ();
-		}
-
 	}
 
 	void AddBScore(){
@@ -260,7 +265,7 @@ public class Game : MonoBehaviour {
 
 	//注册姓名
 	IEnumerator checkName(string name){
-		WWW www = new WWW ("http://127.0.0.1:8000/check_name/"+name);
+		WWW www = new WWW ("http://www.zing.ac.cn:8888/check_name/"+name);
 		yield return www;
 		if (string.IsNullOrEmpty (www.error)) {
 			Debug.Log (www.text);
@@ -280,7 +285,7 @@ public class Game : MonoBehaviour {
 
 	//获取排行榜
 	IEnumerator initRank () {
-		WWW www = new WWW ("http://127.0.0.1:8000/list_top/");
+		WWW www = new WWW ("http://www.zing.ac.cn:8888/list_top/");
 		yield return www;
 		if (string.IsNullOrEmpty (www.error)) {
 			Debug.Log (www.text);
@@ -302,7 +307,7 @@ public class Game : MonoBehaviour {
 		WWWForm wwwForm = new WWWForm();
 		wwwForm.AddField ("user", userName);
 		wwwForm.AddField("score",score);
-		WWW www = new WWW ("http://127.0.0.1:8000/upload_score/",wwwForm);
+		WWW www = new WWW ("http://www.zing.ac.cn:8888/upload_score/",wwwForm);
 		yield return www;
 		if (string.IsNullOrEmpty (www.error)) {
 			Debug.Log (www.text);

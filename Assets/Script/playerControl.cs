@@ -59,6 +59,10 @@ public class playerControl : MonoBehaviour {
 			tail.Add (g.transform);
 			ate = false;
 			check = true;
+			//满格
+			if (tail.Count+1 >= (10+10-1)/2 * (16+18-1)/2) {
+				OnWin ();
+			}
 
 		} 
 //		else if (tail.Count > 0) {
