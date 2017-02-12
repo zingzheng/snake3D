@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System;
+using System.Linq;
+using System.Text;
+using System.Security.Cryptography;
 
 public class Game : MonoBehaviour {
 
@@ -57,7 +60,8 @@ public class Game : MonoBehaviour {
 	//延迟时间
 	private float delt = 99.0f;
 
-
+	string key = "zkAb4J5QKg3SmWWD";
+	string iv = "4RYNtkdgfDA6ykfZ";
 
 
 	// Use this for initialization
@@ -305,9 +309,9 @@ public class Game : MonoBehaviour {
 	//提交分数到服务器
 	IEnumerator submitScore(){
 		WWWForm wwwForm = new WWWForm();
-		wwwForm.AddField ("user", userName);
-		wwwForm.AddField("score",score);
-		WWW www = new WWW ("http://www.zing.ac.cn:8888/upload_score/",wwwForm);
+		wwwForm.AddField ("user", Encrypt(userName,key,iv));
+		wwwForm.AddField("score",Encrypt(score.ToString(),key,iv));
+		WWW www = new WWW ("http://127.0.0.1:8000/upload_score/",wwwForm);
 		yield return www;
 		if (string.IsNullOrEmpty (www.error)) {
 			Debug.Log (www.text);
@@ -369,5 +373,36 @@ public class Game : MonoBehaviour {
 		//将数组链表容器返回
 		return arrlist;
 	}  
+
+	//编码
+	public static string Encrypt(string toEncrypt, string key, string iv)
+	{
+		byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
+		byte[] ivArray = UTF8Encoding.UTF8.GetBytes(iv);
+		byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(toEncrypt);
+		RijndaelManaged rDel = new RijndaelManaged();
+		rDel.Key = keyArray;
+		rDel.IV = ivArray;
+		rDel.Mode = CipherMode.CBC;
+		rDel.Padding = PaddingMode.Zeros;
+		ICryptoTransform cTransform = rDel.CreateEncryptor();
+		byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+		return Convert.ToBase64String(resultArray, 0, resultArray.Length);
+	}
+	//解码
+	public static string Decrypt(string toDecrypt, string key, string iv)
+	{
+		byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
+		byte[] ivArray = UTF8Encoding.UTF8.GetBytes(iv);
+		byte[] toEncryptArray = Convert.FromBase64String(toDecrypt);
+		RijndaelManaged rDel = new RijndaelManaged();
+		rDel.Key = keyArray;
+		rDel.IV = ivArray;
+		rDel.Mode = CipherMode.CBC;
+		rDel.Padding = PaddingMode.Zeros;
+		ICryptoTransform cTransform = rDel.CreateDecryptor();
+		byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+		return UTF8Encoding.UTF8.GetString(resultArray);
+	}
 		
 }
