@@ -311,7 +311,7 @@ public class Game : MonoBehaviour {
 		WWWForm wwwForm = new WWWForm();
 		wwwForm.AddField ("user", Encrypt(userName,key,iv));
 		wwwForm.AddField("score",Encrypt(score.ToString(),key,iv));
-		WWW www = new WWW ("http://127.0.0.1:8000/upload_score/",wwwForm);
+		WWW www = new WWW ("http://www.zing.ac.cn:8888/upload_score/",wwwForm);
 		yield return www;
 		if (string.IsNullOrEmpty (www.error)) {
 			Debug.Log (www.text);
