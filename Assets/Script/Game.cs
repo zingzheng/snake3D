@@ -14,7 +14,7 @@ public class Game : MonoBehaviour {
 	public Text textScore;
 	public Button pauseButton;
 	public Button rankButton;
-	public Button closeButton;
+
 	public Button frButton;
 
 	//中间的开始菜单
@@ -26,7 +26,8 @@ public class Game : MonoBehaviour {
 	//右侧的菜单
 	public Image menuImage;
 	public Text textRank;
-
+	public Button closeButton;
+	public Button freshButton;
 
 
 	public playerControl player;
@@ -82,6 +83,8 @@ public class Game : MonoBehaviour {
 		rank_btn.onClick.AddListener(showRank);
 		Button close_btn = closeButton.GetComponent<Button>();
 		close_btn.onClick.AddListener(closeRank);
+		Button fresh_btn = freshButton.GetComponent<Button>();
+		fresh_btn.onClick.AddListener(showRank);
 
 		//监听设置昵称
 		Button name_btn = nameButton.GetComponent<Button>();
